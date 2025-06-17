@@ -6,7 +6,7 @@ server:
 
 spring:
   application:
-    name: conveyor
+    name: content-conveyor
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
