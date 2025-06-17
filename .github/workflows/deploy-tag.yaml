@@ -52,7 +52,7 @@ jobs:
           echo "Ожидание готовности приложения..."
           for i in {1..12}; do
             echo "Попытка $i из 12..."
-            if curl -s "http://${SERVER_IP}:8082/${{ needs.get-repo-name.outputs.repo }}/actuator/health" | grep -q '"status":"UP"'; then
+            if curl -s "http://${SERVER_IP}:8084/${{ needs.get-repo-name.outputs.repo }}/actuator/health" | grep -q '"status":"UP"'; then
               echo "✅ Приложение успешно запущено"
               exit 0
             fi

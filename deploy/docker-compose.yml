@@ -1,11 +1,11 @@
 version: '3.3'
 
 services:
-  retelling-bot:
-    image: ghcr.io/panyukovnn/retelling-bot:${APP_TAG}
-    container_name: retelling-bot
+  content-conveyor:
+    image: ghcr.io/panyukovnn/content-conveyor:${APP_TAG}
+    container_name: content-conveyor
     ports:
-      - 8082:8082
+      - 8084:8084
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
