@@ -81,7 +81,7 @@ class TgConveyorControllerTest extends AbstractTest {
         // Mock tg-chats-collector response
         WireMock.stubFor(get(urlPathEqualTo("/tg-chats-collector/api/v1/getChatHistory"))
             .withQueryParam("publicChatName", equalTo("test_chat"))
-            .withQueryParam("topicName", equalTo("test_topic"))
+            .withQueryParam("topicNamePart", equalTo("test_topic"))
             .withQueryParam("limit", equalTo("10"))
             .willReturn(aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -97,7 +97,7 @@ class TgConveyorControllerTest extends AbstractTest {
         // Verify wiremock interaction
         WireMock.verify(getRequestedFor(urlPathEqualTo("/tg-chats-collector/api/v1/getChatHistory"))
             .withQueryParam("publicChatName", equalTo("test_chat"))
-            .withQueryParam("topicName", equalTo("test_topic"))
+            .withQueryParam("topicNamePart", equalTo("test_topic"))
             .withQueryParam("limit", equalTo("10")));
 
         List<Prompt> prompts = promptRepository.findAll();
