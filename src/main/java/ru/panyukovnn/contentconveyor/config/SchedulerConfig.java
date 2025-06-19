@@ -13,27 +13,22 @@ import java.util.concurrent.TimeUnit;
 @EnableScheduling
 public class SchedulerConfig {
 
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public ExecutorService sourceParsingScheduler() {
         return createDiscardPolicySingleThreadExecutor();
     }
 
-    @Bean
-    public ExecutorService retellingScheduler() {
+    @Bean(destroyMethod = "shutdown")
+    public ExecutorService parsingJobScheduler() {
         return createDiscardPolicySingleThreadExecutor();
     }
 
-    @Bean
-    public ExecutorService rateRawMaterialScheduler() {
-        return createDiscardPolicySingleThreadExecutor();
-    }
-
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public ExecutorService publicationScheduler() {
         return createDiscardPolicySingleThreadExecutor();
     }
 
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public ExecutorService promptingExecutor() {
         return createElasticScheduler(30, 1000);
     }

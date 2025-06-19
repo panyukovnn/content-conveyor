@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.panyukovnn.contentconveyor.exception.TgSendingException;
+import ru.panyukovnn.contentconveyor.model.PublishingChannel;
 
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class TgSender {
 
     private final TelegramBot telegramBot;
     private final TgMessagePreparer tgMessagePreparer;
+
+    public void sendMessage(PublishingChannel publishingChannel, String message) {
+        this.sendMessage(publishingChannel.getChatId(), publishingChannel.getTopicId(), message);
+    }
 
     public void sendMessage(Long chatId, String message) {
         sendMessage(chatId, null, message);

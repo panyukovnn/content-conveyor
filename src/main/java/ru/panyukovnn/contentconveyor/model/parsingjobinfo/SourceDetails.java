@@ -13,6 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class SourceDetails implements Serializable {
 
-    private Long tgChatId;
-    private Long tgTopicId;
+    private String tgChatNamePart;
+    private String tgTopicNamePart;
 }

@@ -71,7 +71,6 @@ retelling:
     tg-chats-collector:
       host: ${INTEGRATION_TG_CHATS_COLLECTOR_HOST}
 
-
 bot:
   name: ${BOT_NAME}
   token: ${BOT_TOKEN}
