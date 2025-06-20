@@ -31,6 +31,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Write Github Read Packages Token to properties
+        run: mkdir -p /home/gradle/.gradle && \
+             echo "githubPackagesReadToken=${GH_TOKEN}" >> /home/gradle/.gradle/gradle.properties
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
