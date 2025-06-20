@@ -1,13 +1,13 @@
 FROM amazoncorretto:17.0.7-alpine AS build_image
 
+COPY . ./
+
 # Аргумент сборки с токеном для чтения пакетов в github
 ARG GH_TOKEN
 
 # Прокидываем токен в gradle.properties
-RUN mkdir -p /home/gradle/.gradle && \
-    echo "githubPackagesReadToken=${GH_TOKEN}" >> /home/gradle/.gradle/gradle.properties
-
-COPY . ./
+RUN mkdir -p ~/.gradle && \
+    echo "githubPackagesReadToken=${GH_TOKEN}" >> ~/.gradle/gradle.properties
 
 RUN ./gradlew build
 
