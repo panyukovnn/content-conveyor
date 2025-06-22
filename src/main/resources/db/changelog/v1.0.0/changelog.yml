@@ -23,4 +23,6 @@ databaseChangeLog:
   - include:
       file: 06.create_parsing_job_info.yml
       relativeToChangelogFile: true
-
+  - include:
+      file: 07.modify_processing_events.yml
+      relativeToChangelogFile: true

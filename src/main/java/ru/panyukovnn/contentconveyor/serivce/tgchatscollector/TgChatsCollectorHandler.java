@@ -8,7 +8,6 @@ import org.springframework.util.CollectionUtils;
 import ru.panyukovnn.contentconveyor.client.feign.TgChatsCollectorFeignClient;
 import ru.panyukovnn.contentconveyor.dto.TgConveyorRequest;
 import ru.panyukovnn.contentconveyor.dto.chathistory.ChatHistoryResponse;
-import ru.panyukovnn.contentconveyor.model.ConveyorTag;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 import ru.panyukovnn.contentconveyor.model.Prompt;
 import ru.panyukovnn.contentconveyor.model.PublishingChannel;
@@ -93,7 +92,6 @@ public class TgChatsCollectorHandler {
 
         ProcessingEvent reduceProcessingEvent = ProcessingEvent.builder()
             .type(ProcessingEventType.MAP)
-            .conveyorTag(ConveyorTag.TG_MESSAGE_BATCH)
             .conveyorType(ConveyorType.MAP_REDUCE)
             .contentId(null)
             .contentBatchId(parentBatchId)

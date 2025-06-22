@@ -3,6 +3,7 @@ package ru.panyukovnn.contentconveyor.serivce.domain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.panyukovnn.contentconveyor.model.Source;
 import ru.panyukovnn.contentconveyor.model.content.Content;
 import ru.panyukovnn.contentconveyor.repository.ContentRepository;
 
@@ -27,5 +28,9 @@ public class ContentDomainService {
 
     public List<Content> findByParentBatchId(UUID parentBatchId) {
         return contentRepository.findByParentBatchId(parentBatchId);
+    }
+
+    public Optional<Content> findTopBySourceOrderByPublicationDateDesc(Source source) {
+        return contentRepository.findTopBySourceOrderByPublicationDateDesc(source);
     }
 }

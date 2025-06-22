@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: "07.modify_processing_events.yml"
+      author: "Panyukov NN"
+      changes:
+        - dropColumn:
+            columnName: conveyor_tag
+            tableName: processing_events

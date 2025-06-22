@@ -65,6 +65,6 @@ public class HabrLoader implements DataLoader {
 
     @Override
     public Source getSource() {
-        return Source.HABR;
+        return Source.JAVA_HABR;
     }
 }

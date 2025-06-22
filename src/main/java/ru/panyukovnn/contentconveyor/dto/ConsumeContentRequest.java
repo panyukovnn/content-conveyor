@@ -59,9 +59,4 @@ public class ConsumeContentRequest {
     @Pattern(regexp = "just_retelling")
     @NotEmpty
     private String conveyorType;
-
-    @Schema(description = "Сценарий конвейера")
-    @Pattern(regexp = "java_habr|tg_message_batch")
-    @NotEmpty
-    private String conveyorTag;
 }

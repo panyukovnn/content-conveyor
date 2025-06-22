@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.panyukovnn.contentconveyor.client.OpenAiClient;
 import ru.panyukovnn.contentconveyor.exception.RawMaterialRateException;
-import ru.panyukovnn.contentconveyor.model.ConveyorTag;
 import ru.panyukovnn.contentconveyor.model.content.Content;
 import ru.panyukovnn.contentconveyor.model.content.ContentRate;
 import ru.panyukovnn.contentconveyor.model.event.ProcessingEvent;
@@ -63,10 +62,9 @@ class RateRawMaterialEventProcessorImplTest {
 
         ProcessingEvent processingEvent = new ProcessingEvent();
         processingEvent.setContentId(contentId);
-        processingEvent.setConveyorTag(ConveyorTag.JAVA_HABR);
 
         when(contentRepository.findById(contentId)).thenReturn(Optional.of(content));
-        when(hardcodedPromptProperties.getJavaHabrRateMaterial()).thenReturn("Rate prompt");
+        when(hardcodedPromptProperties.getJavaArticleRateMaterial()).thenReturn("Rate prompt");
         when(openAiClient.promptingCall(anyString(), anyString(), anyString()))
             .thenReturn("75 - Good content");
         when(rateProperties.getThreshold()).thenReturn(50);
@@ -104,10 +102,9 @@ class RateRawMaterialEventProcessorImplTest {
 
         ProcessingEvent processingEvent = new ProcessingEvent();
         processingEvent.setContentId(contentId);
-        processingEvent.setConveyorTag(ConveyorTag.JAVA_HABR);
 
         when(contentRepository.findById(contentId)).thenReturn(Optional.of(content));
-        when(hardcodedPromptProperties.getJavaHabrRateMaterial()).thenReturn("Rate prompt");
+        when(hardcodedPromptProperties.getJavaArticleRateMaterial()).thenReturn("Rate prompt");
         when(openAiClient.promptingCall(anyString(), anyString(), anyString()))
             .thenReturn("35 - Poor content");
         when(rateProperties.getThreshold()).thenReturn(50);
@@ -134,10 +131,9 @@ class RateRawMaterialEventProcessorImplTest {
 
         ProcessingEvent processingEvent = new ProcessingEvent();
         processingEvent.setContentId(contentId);
-        processingEvent.setConveyorTag(ConveyorTag.JAVA_HABR);
 
         when(contentRepository.findById(contentId)).thenReturn(Optional.of(content));
-        when(hardcodedPromptProperties.getJavaHabrRateMaterial()).thenReturn("Rate prompt");
+        when(hardcodedPromptProperties.getJavaArticleRateMaterial()).thenReturn("Rate prompt");
         when(openAiClient.promptingCall(anyString(), anyString(), anyString()))
             .thenReturn("Invalid rate format");
 
@@ -153,7 +149,6 @@ class RateRawMaterialEventProcessorImplTest {
         UUID contentId = UUID.randomUUID();
         ProcessingEvent processingEvent = new ProcessingEvent();
         processingEvent.setContentId(contentId);
-        processingEvent.setConveyorTag(ConveyorTag.JAVA_HABR);
 
         when(contentRepository.findById(contentId)).thenReturn(Optional.empty());
 

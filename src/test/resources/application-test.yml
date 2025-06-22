@@ -9,11 +9,11 @@ spring:
 retelling:
   scheduled-jobs:
     source-parsing:
-      habr-cron: "-"
+      article-cron: "-"
     event-processing:
       cron: "-"
   data-finder:
-    habr:
+    article:
       period-of-days-to-look-for: 10_000_000 # Потенциально бесконечное количество дней, чтобы не зависеть от текущей даты в тестах
 
   hardcoded-publishing-channels:
@@ -21,12 +21,14 @@ retelling:
     rate-tg-topic-id: 2
     debug-topic-id: 3
     java-habr-topic-id: 4
+    java-medium-topic-id: 6
+    java-dzone-topic-id: 7
     tg-message-batch-topic-id: 5
 
   hardcoded-prompts:
     youtube-retelling: prompt1
-    java-habr-rate-material: prompt2
-    java-habr-retelling: prompt3
+    java-article-rate-material: prompt2
+    java-article-retelling: prompt3
     tg-message-batch-retelling: prompt4
 
   integration:

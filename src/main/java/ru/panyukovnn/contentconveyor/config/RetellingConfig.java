@@ -3,8 +3,10 @@ package ru.panyukovnn.contentconveyor.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import ru.panyukovnn.contentconveyor.model.Source;
 import ru.panyukovnn.contentconveyor.model.event.ProcessingEventType;
 import ru.panyukovnn.contentconveyor.property.ExecutorsProperty;
+import ru.panyukovnn.contentconveyor.serivce.articleparser.ArticleParser;
 import ru.panyukovnn.contentconveyor.serivce.eventprocessor.EventProcessor;
 
 import java.util.List;
@@ -35,5 +37,11 @@ public class RetellingConfig {
     public Map<ProcessingEventType, EventProcessor> eventProcessorByType(List<EventProcessor> eventProcessors) {
         return eventProcessors.stream()
             .collect(Collectors.toMap(EventProcessor::getProcessingEventType, Function.identity()));
+    }
+
+    @Bean
+    public Map<Source, ArticleParser> articleParserBySource(List<ArticleParser> articleParsers) {
+        return articleParsers.stream()
+            .collect(Collectors.toMap(ArticleParser::getSource, Function.identity()));
     }
 }

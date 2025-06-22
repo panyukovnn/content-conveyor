@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ru.panyukovnn.contentconveyor.exception.InvalidProcessingEventException;
-import ru.panyukovnn.contentconveyor.model.ConveyorTag;
 import ru.panyukovnn.contentconveyor.model.PublishingChannel;
+import ru.panyukovnn.contentconveyor.model.Source;
 import ru.panyukovnn.contentconveyor.model.content.Content;
 import ru.panyukovnn.contentconveyor.model.event.ProcessingEvent;
 import ru.panyukovnn.contentconveyor.model.event.ProcessingEventType;
@@ -35,10 +35,10 @@ public class PublishingEventProcessorImpl implements EventProcessor {
 
     @Override
     public void process(ProcessingEvent processingEvent) {
-        PublishingChannel publishingChannel = defineChatIdAndTopicId(processingEvent);
-
         Content content = contentDomainService.findById(processingEvent.getContentId())
             .orElseThrow(() -> new InvalidProcessingEventException("42d6", "Не удалось найти контент"));
+
+        PublishingChannel publishingChannel = defineChatIdAndTopicId(content.getSource(), processingEvent);
 
         try {
             String contentTitle = content.getTitle();
@@ -64,16 +64,16 @@ public class PublishingEventProcessorImpl implements EventProcessor {
         return ProcessingEventType.PUBLISHING;
     }
 
-    private PublishingChannel defineChatIdAndTopicId(ProcessingEvent processingEvent) {
+    private PublishingChannel defineChatIdAndTopicId(Source source, ProcessingEvent processingEvent) {
         if (processingEvent.getPublishingChannelId() != null) {
             return publishingChannelDomainService.findById(processingEvent.getPublishingChannelId())
                 .orElseThrow(() -> new InvalidProcessingEventException("4df0", "Не удалось найти данные о канале публикации"));
-        } else if (processingEvent.getConveyorTag() != null) {
-            ConveyorTag tag = processingEvent.getConveyorTag();
-
-            Long topicId = switch (tag) {
+        } else {
+            Long topicId = switch (source) {
                 case JAVA_HABR -> hardcodedPublishingProperties.getJavaHabrTopicId();
-                case TG_MESSAGE_BATCH -> hardcodedPublishingProperties.getTgMessageBatchTopicId();
+                case JAVA_DZONE -> hardcodedPublishingProperties.getJavaDzoneTopicId();
+                case JAVA_MEDIUM -> hardcodedPublishingProperties.getJavaMediumTopicId();
+                case TG -> hardcodedPublishingProperties.getTgMessageBatchTopicId();
             };
 
             return PublishingChannel.builder()
@@ -81,8 +81,6 @@ public class PublishingEventProcessorImpl implements EventProcessor {
                 .topicId(topicId)
                 .build();
         }
-
-        throw new InvalidProcessingEventException("9f9f", "У события отсутствует tag и publishingChannelId, из-за чего невозможно определить канал публикации для материала: " + jsonUtil.toJson(processingEvent));
     }
 
     private static String formatMessage(@Nullable Content content, String retelling) {

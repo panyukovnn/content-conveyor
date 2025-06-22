@@ -46,7 +46,7 @@ class HabrLoaderTest extends AbstractTest {
                 () -> assertEquals(link, content.getLink()),
                 () -> assertEquals(Lang.RU, content.getLang()),
                 () -> assertEquals(ContentType.ARTICLE, content.getType()),
-                () -> assertEquals(Source.HABR, content.getSource()),
+                () -> assertEquals(Source.JAVA_HABR, content.getSource()),
                 () -> assertEquals("Распределённые транзакции", content.getTitle()),
                 () -> assertEquals(LocalDateTime.of(2023, 10, 22, 11, 31, 4), content.getPublicationDate()),
                 () -> assertNotNull(content.getContent()),

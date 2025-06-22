@@ -11,7 +11,6 @@ import ru.panyukovnn.contentconveyor.dto.chathistory.ChatHistoryResponse;
 import ru.panyukovnn.contentconveyor.dto.chathistory.MessageDto;
 import ru.panyukovnn.contentconveyor.dto.chathistory.MessagesBatch;
 import ru.panyukovnn.contentconveyor.dto.common.CommonRequest;
-import ru.panyukovnn.contentconveyor.model.ConveyorTag;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 import ru.panyukovnn.contentconveyor.model.Prompt;
 import ru.panyukovnn.contentconveyor.model.PublishingChannel;
@@ -137,7 +136,6 @@ class TgConveyorControllerTest extends AbstractTest {
             .hasSize(1)
             .allSatisfy(processingEvent -> {
                 assertEquals(ProcessingEventType.MAP, processingEvent.getType());
-                assertEquals(ConveyorTag.TG_MESSAGE_BATCH, processingEvent.getConveyorTag());
                 assertEquals(ConveyorType.MAP_REDUCE, processingEvent.getConveyorType());
                 assertNull(processingEvent.getContentId());
                 assertEquals(content.getParentBatchId(), processingEvent.getContentBatchId());

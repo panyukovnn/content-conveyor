@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class HardcodedPromptProperties {
 
     private String youtubeRetelling;
-    private String javaHabrRateMaterial;
-    private String javaHabrRetelling;
+    private String javaArticleRateMaterial;
+    private String javaArticleRetelling;
     private String tgMessageBatchRetelling;
 }

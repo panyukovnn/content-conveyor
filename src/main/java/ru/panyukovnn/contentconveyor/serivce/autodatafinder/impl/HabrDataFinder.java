@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import ru.panyukovnn.contentconveyor.property.HabrDataFinedProperty;
+import ru.panyukovnn.contentconveyor.property.ArticleDataFinedProperty;
 import ru.panyukovnn.contentconveyor.serivce.autodatafinder.AutoDataFinder;
 
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class HabrDataFinder implements AutoDataFinder {
 
     private static final String JAVA_HUB = "java";
 
-    private final HabrDataFinedProperty habrDataFinedProperty;
+    private final ArticleDataFinedProperty articleDataFinedProperty;
 
     @Override
     public List<String> findDataToLoad() {
@@ -43,7 +43,7 @@ public class HabrDataFinder implements AutoDataFinder {
 
             Elements articleBlocks = doc.select("div.tm-article-snippet");
 
-            LocalDateTime fromDateTime = LocalDateTime.now(ZoneOffset.UTC).minusDays(habrDataFinedProperty.getPeriodOfDaysToLookFor());
+            LocalDateTime fromDateTime = LocalDateTime.now(ZoneOffset.UTC).minusDays(articleDataFinedProperty.getPeriodOfDaysToLookFor());
 
             return articleBlocks.stream()
                 .takeWhile(article -> {

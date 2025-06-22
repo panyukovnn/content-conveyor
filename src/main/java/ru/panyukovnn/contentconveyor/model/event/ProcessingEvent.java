@@ -3,7 +3,6 @@ package ru.panyukovnn.contentconveyor.model.event;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.panyukovnn.contentconveyor.model.AuditableEntity;
-import ru.panyukovnn.contentconveyor.model.ConveyorTag;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 
 import java.util.Objects;
@@ -36,11 +35,6 @@ public class ProcessingEvent extends AuditableEntity {
      */
     @Enumerated(EnumType.STRING)
     private ConveyorType conveyorType;
-    /**
-     * Тег, по которому конкретизируется конвейер
-     */
-    @Enumerated(EnumType.STRING)
-    private ConveyorTag conveyorTag;
     /**
      * Идентификатор промта
      */

@@ -49,7 +49,7 @@ public class RateRawMaterialEventProcessorImpl implements EventProcessor {
             return;
         }
 
-        String prompt = hardcodedPromptProperties.getJavaHabrRateMaterial();
+        String prompt = hardcodedPromptProperties.getJavaArticleRateMaterial();
 
         String retellingResponse = openAiClient.promptingCall("rate_material", prompt, content.getContent());
 

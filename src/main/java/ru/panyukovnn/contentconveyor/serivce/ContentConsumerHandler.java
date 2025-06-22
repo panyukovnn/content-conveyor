@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.panyukovnn.contentconveyor.dto.ConsumeContentRequest;
-import ru.panyukovnn.contentconveyor.model.ConveyorTag;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 import ru.panyukovnn.contentconveyor.model.content.Content;
 import ru.panyukovnn.contentconveyor.model.content.ContentType;
@@ -42,12 +41,10 @@ public class ContentConsumerHandler {
         contentDomainService.save(content);
 
         ConveyorType conveyorType = ConveyorType.valueOf(consumeContentRequest.getConveyorType().toUpperCase());
-        ConveyorTag conveyorTag = ConveyorTag.valueOf(consumeContentRequest.getConveyorTag().toUpperCase());
 
         ProcessingEvent processingEvent = ProcessingEvent.builder()
             .contentId(content.getId())
             .type(conveyorType.getStartEventType())
-            .conveyorTag(conveyorTag)
             .conveyorType(conveyorType)
             .build();
         processingEventDomainService.save(processingEvent);

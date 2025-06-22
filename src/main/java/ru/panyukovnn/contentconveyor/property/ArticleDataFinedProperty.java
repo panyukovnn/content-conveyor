@@ -11,8 +11,8 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Component
 @Validated
-@ConfigurationProperties(prefix = "retelling.data-finder.habr")
-public class HabrDataFinedProperty {
+@ConfigurationProperties(prefix = "retelling.data-finder.article")
+public class ArticleDataFinedProperty {
 
     @Positive
     private Integer periodOfDaysToLookFor;

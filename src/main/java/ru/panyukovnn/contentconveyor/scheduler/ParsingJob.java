@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.panyukovnn.contentconveyor.dto.chathistory.ChatHistoryResponse;
-import ru.panyukovnn.contentconveyor.model.ConveyorTag;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 import ru.panyukovnn.contentconveyor.model.PublishingChannel;
 import ru.panyukovnn.contentconveyor.model.Source;
@@ -90,7 +89,6 @@ public class ParsingJob {
 
         ProcessingEvent reduceProcessingEvent = ProcessingEvent.builder()
             .type(conveyorType.getStartEventType())
-            .conveyorTag(ConveyorTag.TG_MESSAGE_BATCH)
             .conveyorType(conveyorType)
             .contentId(null)
             .contentBatchId(parentBatchId)

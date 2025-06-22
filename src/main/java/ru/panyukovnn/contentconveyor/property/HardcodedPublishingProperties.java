@@ -19,6 +19,8 @@ public class HardcodedPublishingProperties {
     private Long debugTopicId;
 
     private Long javaHabrTopicId;
+    private Long javaDzoneTopicId;
+    private Long javaMediumTopicId;
     private Long tgMessageBatchTopicId;
 
 }

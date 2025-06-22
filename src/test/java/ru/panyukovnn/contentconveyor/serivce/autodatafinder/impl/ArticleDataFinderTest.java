@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class HabrDataFinderTest extends AbstractTest {
+class ArticleDataFinderTest extends AbstractTest {
 
     @Test
     public void when_findDataToLoad_then_success() throws IOException {
