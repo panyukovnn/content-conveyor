@@ -34,7 +34,7 @@ jobs:
       - name: Write Github Read Packages Token to properties
         run: |
           mkdir -p $HOME/.gradle
-          echo "githubPackagesReadToken=${{ secrets.GITHUB_TOKEN }}" >> $HOME/.gradle/gradle.properties
+          echo "githubPackagesReadToken=${{ secrets.GH_PACKAGES_READ_TOKEN }}" >> $HOME/.gradle/gradle.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
