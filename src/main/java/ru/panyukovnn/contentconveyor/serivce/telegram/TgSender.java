@@ -36,6 +36,12 @@ public class TgSender {
     }
 
     private void executeSendMessage(Long chatId, Long messageThreadId, String message) {
+        if (messageThreadId == -1) {
+            log.info("Прервана отправка сообщения, поскольку задан топик '-1': {}", message);
+
+            return;
+        }
+
         SendMessage request = new SendMessage(chatId, message)
             .parseMode(ParseMode.Markdown)
             .linkPreviewOptions(new LinkPreviewOptions()
