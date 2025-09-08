@@ -20,7 +20,7 @@ repositories {
         url = 'https://central.sonatype.com/repository/maven-snapshots/'
     }
     maven {
-        url = uri("https://maven.pkg.github.com/PanyukovNN/logging-starter-3")
+        url = uri("https://maven.pkg.github.com/PanyukovNN/reference-logging-starter")
         credentials {
             username = 'PanyukovNN'
             password = githubPackagesReadToken
@@ -48,7 +48,7 @@ dependencies {
     implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
 
-    implementation 'ru.panyukovnn:logging-starter-3:1.0.0-R4'
+    implementation 'ru.panyukovnn:reference-logging-starter:1.0.0-RC2'
 
     implementation "org.liquibase:liquibase-core"
     implementation "org.postgresql:postgresql:42.7.4"
