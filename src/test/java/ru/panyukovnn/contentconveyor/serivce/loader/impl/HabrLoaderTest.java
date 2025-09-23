@@ -24,7 +24,7 @@ class HabrLoaderTest extends AbstractTest {
     @Test
     @Transactional
     public void when_findDataToLoad_then_success() throws IOException {
-        String link = "https://habr.com/ru/articles/123456/";
+        String link = "https://habr.com/ru/articles/769102/";
         String habrArticlePage = TestFileUtil.readFileFromResources("mockdata/service/loader/habr/habr-article.html");
 
         Document habrArticlePageDoc = Jsoup.parse(habrArticlePage);
