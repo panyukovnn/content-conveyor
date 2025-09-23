@@ -39,7 +39,7 @@ public class HabrLoader implements DataLoader {
 
             String title = doc.select("h1.tm-title > span").text();
             String rawDateTime = doc.select("span.tm-article-datetime-published > time").attr("datetime");
-            String articleContent = doc.select("div.tm-article-body").text();
+            String articleContent = doc.select("div.article-body").text();
 
             LocalDateTime parsedDateTime = ZonedDateTime.parse(rawDateTime).toLocalDateTime();
 
