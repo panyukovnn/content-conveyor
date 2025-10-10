@@ -58,6 +58,7 @@ public class HabrParserImpl implements ArticleParser {
         if (lastContent != null && foundedLinks.contains(lastContent.getLink())) {
             return foundedLinks.stream()
                 .dropWhile(link -> !link.equals(lastContent.getLink()))
+                .skip(1)
                 .toList();
         }
 
