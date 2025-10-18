@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.panyukovnn.contentconveyor.exception.TgSendingException;
-import ru.panyukovnn.contentconveyor.model.PublishingChannel;
+import ru.panyukovnn.contentconveyor.model.publishingchannels.PublishingChannel;
+import ru.panyukovnn.contentconveyor.property.HardcodedPublishingProperties;
 
 import java.util.List;
 
@@ -20,9 +21,14 @@ public class TgSender {
 
     private final TelegramBot telegramBot;
     private final TgMessagePreparer tgMessagePreparer;
+    private final HardcodedPublishingProperties hardcodedPublishingProperties;
 
     public void sendMessage(PublishingChannel publishingChannel, String message) {
         this.sendMessage(publishingChannel.getChatId(), publishingChannel.getTopicId(), message);
+    }
+
+    public void sendDebugMessage(String message) {
+        this.sendMessage(hardcodedPublishingProperties.getDebugChatId(), hardcodedPublishingProperties.getDebugTopicId(), message);
     }
 
     public void sendMessage(Long chatId, String message) {

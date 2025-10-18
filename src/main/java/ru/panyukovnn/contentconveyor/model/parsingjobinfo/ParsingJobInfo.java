@@ -1,10 +1,25 @@
 package ru.panyukovnn.contentconveyor.model.parsingjobinfo;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import ru.panyukovnn.contentconveyor.model.*;
+import ru.panyukovnn.contentconveyor.model.AuditableEntity;
+import ru.panyukovnn.contentconveyor.model.ConveyorType;
+import ru.panyukovnn.contentconveyor.model.Prompt;
+import ru.panyukovnn.contentconveyor.model.Source;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -48,10 +63,9 @@ public class ParsingJobInfo extends AuditableEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Prompt prompt;
     /**
-     * Канал публикации
+     * Идентификатор группы каналов публикации
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PublishingChannel publishingChannel;
+    private UUID publishingChannelSetsId;
 
     @Override
     public boolean equals(Object o) {

@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: "01.create_publishing_channel_sets.yml"
+      author: "Panyukov NN"
+      changes:
+        - createTable:
+            tableName: publishing_channel_sets
+            remarks: "Группа каналов публикации"
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar
+                  remarks: "Имя (для читабельности)"
+              - column:
+                  name: active
+                  type: bool
+                  remarks: "Признак активности"
+
+              - column:
+                  name: create_time
+                  type: timestamp
+                  remarks: "Время создания"
+              - column:
+                  name: create_user
+                  type: varchar
+                  remarks: "Пользователь, который создал запись"
+              - column:
+                  name: last_update_time
+                  type: timestamp
+                  remarks: "Время последнего изменения"
+              - column:
+                  name: last_update_user
+                  type: varchar
+                  remarks: "Пользователь, который последним внес изменения"

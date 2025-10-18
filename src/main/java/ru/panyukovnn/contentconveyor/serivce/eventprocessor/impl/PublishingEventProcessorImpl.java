@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import ru.panyukovnn.contentconveyor.exception.ConveyorException;
 import ru.panyukovnn.contentconveyor.exception.InvalidProcessingEventException;
-import ru.panyukovnn.contentconveyor.model.PublishingChannel;
+import ru.panyukovnn.contentconveyor.model.publishingchannels.PublishingChannel;
 import ru.panyukovnn.contentconveyor.model.Source;
 import ru.panyukovnn.contentconveyor.model.content.Content;
 import ru.panyukovnn.contentconveyor.model.event.ProcessingEvent;
@@ -19,6 +20,7 @@ import ru.panyukovnn.contentconveyor.serivce.eventprocessor.EventProcessor;
 import ru.panyukovnn.contentconveyor.serivce.telegram.TgSender;
 import ru.panyukovnn.contentconveyor.util.JsonUtil;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -38,16 +40,18 @@ public class PublishingEventProcessorImpl implements EventProcessor {
         Content content = contentDomainService.findById(processingEvent.getContentId())
             .orElseThrow(() -> new InvalidProcessingEventException("42d6", "Не удалось найти контент"));
 
-        PublishingChannel publishingChannel = defineChatIdAndTopicId(content.getSource(), processingEvent);
+        List<PublishingChannel> publishingChannels = defineChatIdAndTopicId(content.getSource(), processingEvent);
 
         try {
             String contentTitle = content.getTitle();
             String formattedMessage = formatMessage(content, content.getContent());
 
-            tgSender.sendMessage(publishingChannel.getChatId(), publishingChannel.getTopicId(), formattedMessage);
+            for (PublishingChannel publishingChannel : publishingChannels) {
+                tgSender.sendMessage(publishingChannel.getChatId(), publishingChannel.getTopicId(), formattedMessage);
 
-            log.info("Успешно выполнена отправка материала. Название материала: {}. contentId: {}. processingEvent: {}",
-                contentTitle, content.getId(), jsonUtil.toJson(processingEvent));
+                log.info("Успешно выполнена отправка материала. Название материала: {}. contentId: {}. processingEvent: {}. publishingChannel name: {}. chatId: {}. topicId: {}",
+                    contentTitle, content.getId(), jsonUtil.toJson(processingEvent), publishingChannel.getName(), publishingChannel.getChatId(), publishingChannel.getTopicId());
+            }
 
             processingEvent.setType(ProcessingEventType.PUBLISHED);
         } catch (Exception e) {
@@ -64,22 +68,27 @@ public class PublishingEventProcessorImpl implements EventProcessor {
         return ProcessingEventType.PUBLISHING;
     }
 
-    private PublishingChannel defineChatIdAndTopicId(Source source, ProcessingEvent processingEvent) {
-        if (processingEvent.getPublishingChannelId() != null) {
-            return publishingChannelDomainService.findById(processingEvent.getPublishingChannelId())
-                .orElseThrow(() -> new InvalidProcessingEventException("4df0", "Не удалось найти данные о канале публикации"));
+    private List<PublishingChannel> defineChatIdAndTopicId(Source source, ProcessingEvent processingEvent) {
+        if (processingEvent.getPublishingChannelSetsId() != null) {
+            List<PublishingChannel> publishingChannels = publishingChannelDomainService.findByPublishingChannelSet(processingEvent.getPublishingChannelSetsId());
+
+            if (publishingChannels.isEmpty()) {
+                throw new InvalidProcessingEventException("4df0", "Не удалось найти данные о канале публикации");
+            }
+
+            return publishingChannels;
         } else {
             Long topicId = switch (source) {
-                case JAVA_HABR -> hardcodedPublishingProperties.getJavaHabrTopicId();
+                case JAVA_HABR -> throw new ConveyorException("53a5", "Для habr канал публикации должен быть задан в бд");
                 case JAVA_DZONE -> hardcodedPublishingProperties.getJavaDzoneTopicId();
                 case JAVA_MEDIUM -> hardcodedPublishingProperties.getJavaMediumTopicId();
                 case TG -> hardcodedPublishingProperties.getTgMessageBatchTopicId();
             };
 
-            return PublishingChannel.builder()
+            return List.of(PublishingChannel.builder()
                 .chatId(hardcodedPublishingProperties.getChatId())
                 .topicId(topicId)
-                .build();
+                .build());
         }
     }
 

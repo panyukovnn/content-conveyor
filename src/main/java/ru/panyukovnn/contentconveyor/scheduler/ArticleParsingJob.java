@@ -15,6 +15,8 @@ import ru.panyukovnn.contentconveyor.serivce.domain.ProcessingEventDomainService
 import java.util.List;
 import java.util.Map;
 
+import static ru.panyukovnn.contentconveyor.util.Constants.HABR_PUBLISHING_CHANNEL_SET_ID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,7 @@ public class ArticleParsingJob {
                     .type(ratingAndRetelling.getStartEventType())
                     .conveyorType(ratingAndRetelling)
                     .contentId(content.getId())
+                    .publishingChannelSetsId(HABR_PUBLISHING_CHANNEL_SET_ID)
                     .build();
 
                 processingEventDomainService.save(processingEvent);

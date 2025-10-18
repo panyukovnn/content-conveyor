@@ -10,7 +10,7 @@ import ru.panyukovnn.contentconveyor.dto.TgConveyorRequest;
 import ru.panyukovnn.contentconveyor.dto.chathistory.ChatHistoryResponse;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 import ru.panyukovnn.contentconveyor.model.Prompt;
-import ru.panyukovnn.contentconveyor.model.PublishingChannel;
+import ru.panyukovnn.contentconveyor.model.publishingchannels.PublishingChannel;
 import ru.panyukovnn.contentconveyor.model.content.Content;
 import ru.panyukovnn.contentconveyor.model.content.ContentType;
 import ru.panyukovnn.contentconveyor.model.Source;
@@ -53,14 +53,15 @@ public class TgChatsCollectorHandler {
         }
 
         transactionTemplate.execute(tx -> {
-            PublishingChannel publishingChannel = definePublishingChannel(tgConveyorRequest);
+            // TODO тут должен создаваться publishingChannelSet
+//            PublishingChannel publishingChannel = definePublishingChannel(tgConveyorRequest);
 
             Prompt prompt = promptDomainService.save(Prompt.builder()
                 .mapPrompt(tgConveyorRequest.getMapPrompt())
                 .reducePrompt(tgConveyorRequest.getReducePrompt())
                 .build());
 
-            createContents(chatHistory, prompt.getId(), publishingChannel.getId());
+//            createContents(chatHistory, prompt.getId(), publishingChannel.getId());
 
             return null;
         });
@@ -96,7 +97,7 @@ public class TgChatsCollectorHandler {
             .contentId(null)
             .contentBatchId(parentBatchId)
             .promptId(promptId)
-            .publishingChannelId(publishingChannelId)
+//            .publishingChannelSet(publishingChannelId) // TODO
             .build();
         processingEventDomainService.save(reduceProcessingEvent);
     }

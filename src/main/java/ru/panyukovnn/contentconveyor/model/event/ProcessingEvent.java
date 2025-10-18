@@ -1,7 +1,17 @@
 package ru.panyukovnn.contentconveyor.model.event;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.panyukovnn.contentconveyor.model.AuditableEntity;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 
@@ -44,9 +54,9 @@ public class ProcessingEvent extends AuditableEntity {
      */
     private UUID contentBatchId;
     /**
-     * Идентификатор канала отправки
+     * Идентификатор группы каналов отправки
      */
-    private UUID publishingChannelId;
+    private UUID publishingChannelSetsId;
 
     @Override
     public boolean equals(Object o) {

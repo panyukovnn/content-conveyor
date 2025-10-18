@@ -7,7 +7,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.panyukovnn.contentconveyor.dto.chathistory.ChatHistoryResponse;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
-import ru.panyukovnn.contentconveyor.model.PublishingChannel;
 import ru.panyukovnn.contentconveyor.model.Source;
 import ru.panyukovnn.contentconveyor.model.content.Content;
 import ru.panyukovnn.contentconveyor.model.content.ContentType;
@@ -45,7 +44,6 @@ public class ParsingJob {
             try {
                 if (Source.TG.equals(parsingJob.getSource())) {
                     SourceDetails sourceDetails = parsingJob.getSourceDetails();
-                    PublishingChannel publishingChannel = parsingJob.getPublishingChannel();
 
                     ChatHistoryResponse lastDayChatHistory = tgChatsCollectorClientService.getLastDayChatHistory(
                         sourceDetails.getTgChatNamePart(),
@@ -53,7 +51,7 @@ public class ParsingJob {
                     );
 
                     if (lastDayChatHistory.getChatId() == 0L) {
-                        tgSender.sendMessage(publishingChannel, "Ошибка получения сообщений из чата: " + sourceDetails);
+                        tgSender.sendDebugMessage("Ошибка получения сообщений из чата: " + sourceDetails);
 
                         return;
                     }
@@ -93,7 +91,7 @@ public class ParsingJob {
             .contentId(null)
             .contentBatchId(parentBatchId)
             .promptId(parsingJob.getPrompt().getId())
-            .publishingChannelId(parsingJob.getPublishingChannel().getId())
+            .publishingChannelSetsId(parsingJob.getPublishingChannelSetsId())
             .build();
         processingEventDomainService.save(reduceProcessingEvent);
     }

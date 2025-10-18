@@ -43,3 +43,5 @@ bin/
 credentials.txt
 audio/
 docs/
+/deploy/content_conveyor_db_data.sql
+/deploy/init-remote-db-data.sh

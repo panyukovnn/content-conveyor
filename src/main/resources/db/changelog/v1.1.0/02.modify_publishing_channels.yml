@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: "02.modify_publishing_channels.yml"
+      author: "Panyukov NN"
+      changes:
+        - addColumn:
+            tableName: publishing_channels
+            columns:
+              - column:
+                  name: publishing_channel_sets_id
+                  type: uuid
+                  remarks: "Идентификатор группы каналов публикации"
+              - column:
+                  name: active
+                  type: bool
+                  remarks: "Признак активности"

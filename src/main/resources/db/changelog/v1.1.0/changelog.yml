@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: release/1.1.0
+      author: "Panyukov NN"
+      changes:
+        - tagDatabase:
+            tag: release/1.1.0
+  - include:
+      file: 01.create_publishing_channel_sets.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 02.modify_publishing_channels.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 03.modify_processing_events.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 04.modify_parsing_job_info.yml
+      relativeToChangelogFile: true

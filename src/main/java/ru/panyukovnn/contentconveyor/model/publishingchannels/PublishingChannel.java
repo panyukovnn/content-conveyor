@@ -1,7 +1,8 @@
-package ru.panyukovnn.contentconveyor.model;
+package ru.panyukovnn.contentconveyor.model.publishingchannels;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.panyukovnn.contentconveyor.model.AuditableEntity;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -35,6 +36,10 @@ public class PublishingChannel extends AuditableEntity {
      * Идентификатор топика в телеграм
      */
     private Long topicId;
+    /**
+     * Идентификатор группы каналов публикации
+     */
+    private UUID publishingChannelSetsId;
 
     @Override
     public boolean equals(Object o) {

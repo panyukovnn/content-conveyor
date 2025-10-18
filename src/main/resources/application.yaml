@@ -57,8 +57,8 @@ retelling:
   hardcoded-publishing-channels:
     chat-id: ${PUBLISHING_CHAT_ID}
     rate-tg-topic-id: ${RATE_TG_TOPIC_ID}
+    debug-chat-id: ${DEBUG_CHAT_ID}
     debug-topic-id: ${DEBUG_TG_TOPIC_ID}
-    java-habr-topic-id: ${JAVA_RETELLING_TG_TOPIC_ID}
     java-medium-topic-id: ${JAVA_RETELLING_TG_TOPIC_ID}
     java-dzone-topic-id: ${JAVA_RETELLING_TG_TOPIC_ID}
     tg-message-batch-topic-id: ${TG_MESSAGE_BATCH_RETELLING_TG_TOPIC_ID}

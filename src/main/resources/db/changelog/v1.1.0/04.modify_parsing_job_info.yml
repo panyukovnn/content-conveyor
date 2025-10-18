@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: "04.modify_parsing_job_info.yml"
+      author: "Panyukov NN"
+      changes:
+        - addColumn:
+            tableName: parsing_job_info
+            columns:
+              - column:
+                  name: publishing_channel_sets_id
+                  type: uuid
+                  remarks: "Идентификатор группы каналов публикации"
+        - dropColumn:
+            tableName: parsing_job_info
+            columnName: publishing_channel_id

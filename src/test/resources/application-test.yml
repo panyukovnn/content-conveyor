@@ -19,6 +19,7 @@ retelling:
   hardcoded-publishing-channels:
     chat-id: 1
     rate-tg-topic-id: 2
+    debug-chat-id: 8
     debug-topic-id: 3
     java-habr-topic-id: 4
     java-medium-topic-id: 6
