@@ -49,7 +49,7 @@ retelling:
     event-processing:
       cron: "*/10 * * * * *"
   rate:
-    threshold: 70 # Оценка материала должна быть выше 70% для его публикации
+    threshold: 60 # Оценка материала должна быть выше данного значения, для его публикации
   data-finder:
     article:
       period-of-days-to-look-for: 2

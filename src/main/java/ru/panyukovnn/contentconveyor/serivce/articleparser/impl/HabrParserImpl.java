@@ -57,8 +57,7 @@ public class HabrParserImpl implements ArticleParser {
     protected List<String> defineLinksToLoad(List<String> foundedLinks, Content lastContent) {
         if (lastContent != null && foundedLinks.contains(lastContent.getLink())) {
             return foundedLinks.stream()
-                .dropWhile(link -> !link.equals(lastContent.getLink()))
-                .skip(1)
+                .takeWhile(link -> !link.equals(lastContent.getLink()))
                 .toList();
         }
 
