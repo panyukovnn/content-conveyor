@@ -12,6 +12,6 @@ import java.util.UUID;
 @RepositoryRestResource
 public interface ParsingJobInfoRepository extends JpaRepository<ParsingJobInfo, UUID> {
 
-    @EntityGraph(attributePaths = {"prompt", "publishingChannel"})
+    @EntityGraph(attributePaths = {"prompt"})
     List<ParsingJobInfo> findByFrequency(ParsingFrequency frequency);
 }

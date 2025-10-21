@@ -28,7 +28,11 @@ public class TgSender {
     }
 
     public void sendDebugMessage(String message) {
-        this.sendMessage(hardcodedPublishingProperties.getDebugChatId(), hardcodedPublishingProperties.getDebugTopicId(), message);
+        SendMessage request = new SendMessage(hardcodedPublishingProperties.getDebugChatId(), message)
+            .parseMode(ParseMode.Markdown)
+            .linkPreviewOptions(new LinkPreviewOptions().isDisabled(true));
+
+        telegramBot.execute(request);
     }
 
     public void sendMessage(Long chatId, String message) {
@@ -68,11 +72,15 @@ public class TgSender {
                 SendResponse secondResponse = telegramBot.execute(request);
 
                 if (!secondResponse.isOk()) {
-                    throw new TgSendingException("694f", "Ошибка отправки сообщения в телеграм: " + response.description());
+                    sendDebugMessage("Ошибка отправки сообщения в телеграм: " + response.description());
+
+                    throw new TgSendingException("70ff", "Ошибка отправки сообщения в телеграм: " + response.description());
                 }
 
                 return;
             }
+
+            sendDebugMessage("Ошибка отправки сообщения в телеграм: " + response.description());
 
             throw new TgSendingException("694f", "Ошибка отправки сообщения в телеграм: " + response.description());
         }

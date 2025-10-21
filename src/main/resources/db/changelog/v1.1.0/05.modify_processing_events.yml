@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: "05.modify_processing_events.yml"
+      author: "Panyukov NN"
+      changes:
+        - dropColumn:
+            tableName: processing_events
+            columnName: publishing_channel_id
