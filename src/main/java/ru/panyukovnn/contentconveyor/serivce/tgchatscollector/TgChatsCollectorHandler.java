@@ -22,6 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TgChatsCollectorHandler {
 
+    private static final int MAX_BATCH_SIZE_KB = 190;
+
     private final JsonUtil jsonUtil;
     private final TransactionTemplate transactionTemplate;
     private final PromptDomainService promptDomainService;
@@ -103,4 +105,47 @@ public class TgChatsCollectorHandler {
                 .topicId(tgConveyorRequest.getTopicId())
                 .build()));
     }
+
+    // TODO логика разбиения сообщений по батчам
+//    private List<MessagesBatch> createMessageBatches(List<TgMessageDto> messageDtos) {
+//        List<MessagesBatch> batches = new ArrayList<>();
+//        List<MessageDto> currentBatch = new ArrayList<>();
+//        int currentBatchSizeBytes = 0;
+//
+//        for (TgMessageDto message : messageDtos) {
+//            MessageDto messageDto = MessageDto.builder()
+//                .senderId(message.getSenderId())
+//                .replyToText(message.getReplyToText())
+//                .id(message.getMessageId())
+//                .text(message.getText())
+//                .build();
+//
+//            try {
+//                int messageSizeBytes = objectMapper.writeValueAsString(messageDto).getBytes().length;
+//
+//                if (currentBatchSizeBytes + messageSizeBytes > MAX_BATCH_SIZE_KB * 1024 && !currentBatch.isEmpty()) {
+//                    batches.add(MessagesBatch.builder()
+//                        .count(currentBatch.size())
+//                        .messages(new ArrayList<>(currentBatch))
+//                        .build());
+//                    currentBatch.clear();
+//                    currentBatchSizeBytes = 0;
+//                }
+//
+//                currentBatch.add(messageDto);
+//                currentBatchSizeBytes += messageSizeBytes;
+//            } catch (Exception e) {
+//                log.error("Ошибка при сериализации сообщения в JSON: {}", e.getMessage());
+//            }
+//        }
+//
+//        if (!currentBatch.isEmpty()) {
+//            batches.add(MessagesBatch.builder()
+//                .count(currentBatch.size())
+//                .messages(currentBatch)
+//                .build());
+//        }
+//
+//        return batches;
+//    }
 }
