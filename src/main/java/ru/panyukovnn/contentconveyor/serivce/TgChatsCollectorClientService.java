@@ -3,9 +3,14 @@ package ru.panyukovnn.contentconveyor.serivce;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import ru.panyukovnn.contentconveyor.client.feign.TgChatsCollectorFeignClient;
-import ru.panyukovnn.contentconveyor.dto.chathistory.ChatHistoryResponse;
+import ru.panyukovnn.contentconveyor.dto.common.CommonRequest;
+import ru.panyukovnn.contentconveyor.dto.common.CommonResponse;
+import ru.panyukovnn.contentconveyor.dto.searchchathistory.SearchChatHistoryRequest;
+import ru.panyukovnn.contentconveyor.dto.searchchathistory.SearchChatHistoryResponse;
+import ru.panyukovnn.contentconveyor.util.JsonUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,24 +20,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TgChatsCollectorClientService {
 
-    private static final ChatHistoryResponse FALLBACK_RESPONSE = ChatHistoryResponse.builder()
+    private static final SearchChatHistoryResponse FALLBACK_RESPONSE = SearchChatHistoryResponse.builder()
         .chatId(0L)
-        .messageBatches(List.of())
+        .messages(List.of())
         .totalCount(0)
         .build();
 
+    private final JsonUtil jsonUtil;
     private final TgChatsCollectorFeignClient tgChatsCollectorFeignClient;
 
-    public ChatHistoryResponse getLastDayChatHistory(String privateChatNamePart, String topicNamePart) {
+    public SearchChatHistoryResponse fetchLastDayChatHistory(Long chatId, Long topicId) {
         try {
-            return tgChatsCollectorFeignClient.getChatHistory(
-                null,
-                privateChatNamePart,
-                topicNamePart,
-                null,
-                LocalDateTime.now().minusDays(1),
-                null
-            );
+            SearchChatHistoryRequest searchChatHistoryRequest = SearchChatHistoryRequest.builder()
+                .chatId(chatId)
+                .topicId(topicId)
+                .dateFrom(LocalDateTime.now().minusDays(1))
+                .returnFromDb(false)
+                .build();
+
+            CommonRequest<SearchChatHistoryRequest> commonRequest = CommonRequest.<SearchChatHistoryRequest>builder()
+                .body(searchChatHistoryRequest)
+                .build();
+
+            CommonResponse<SearchChatHistoryResponse> commonResponse = tgChatsCollectorFeignClient.postSearchChatHistory(commonRequest);
+
+            if (StringUtils.isNotBlank(commonResponse.getErrorMessage())) {
+                log.warn("Получен ответ с ошибкой от tg-chats-collector: {}", jsonUtil.toJson(commonResponse));
+
+                return FALLBACK_RESPONSE;
+            }
+
+            return commonResponse.getBody();
         } catch (FeignException e) {
             log.warn("Ошибка при отправке запроса в tg-chats-collector, статус ответа: {}. Тело ответа: {}", e.status(), e.responseBody(), e);
         } catch (Exception e) {

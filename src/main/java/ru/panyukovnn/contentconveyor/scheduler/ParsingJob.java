@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.panyukovnn.contentconveyor.dto.chathistory.ChatHistoryResponse;
+import org.springframework.util.CollectionUtils;
+import ru.panyukovnn.contentconveyor.dto.searchchathistory.SearchChatHistoryResponse;
+import ru.panyukovnn.contentconveyor.dto.searchchathistory.TgMessageDto;
 import ru.panyukovnn.contentconveyor.model.ConveyorType;
 import ru.panyukovnn.contentconveyor.model.Source;
 import ru.panyukovnn.contentconveyor.model.content.Content;
@@ -45,18 +47,24 @@ public class ParsingJob {
                 if (Source.TG.equals(parsingJob.getSource())) {
                     SourceDetails sourceDetails = parsingJob.getSourceDetails();
 
-                    ChatHistoryResponse lastDayChatHistory = tgChatsCollectorClientService.getLastDayChatHistory(
-                        sourceDetails.getTgChatNamePart(),
-                        sourceDetails.getTgTopicNamePart()
+                    SearchChatHistoryResponse searchChatHistoryResponse = tgChatsCollectorClientService.fetchLastDayChatHistory(
+                        sourceDetails.getTgChatId(),
+                        sourceDetails.getTgTopicId()
                     );
 
-                    if (lastDayChatHistory.getChatId() == 0L) {
+                    if (searchChatHistoryResponse.getChatId() == 0L) {
                         tgSender.sendDebugMessage("Ошибка получения сообщений из чата: " + sourceDetails);
 
                         return;
                     }
 
-                    startConveyor(parsingJob, lastDayChatHistory);
+                    if (CollectionUtils.isEmpty(searchChatHistoryResponse.getMessages())) {
+                        tgSender.sendDebugMessage("Не найдены сообщения в чате для пересказа: " + sourceDetails);
+
+                        return;
+                    }
+
+                    startConveyor(parsingJob, searchChatHistoryResponse);
                 }
             } catch (Exception e) {
                 log.error("Ошибка ежедневного сбора информации из источника: {}", e.getMessage(), e);
@@ -64,24 +72,24 @@ public class ParsingJob {
         });
     }
 
-    private void startConveyor(ParsingJobInfo parsingJob, ChatHistoryResponse lastDayChatHistory) {
+    private void startConveyor(ParsingJobInfo parsingJob, SearchChatHistoryResponse searchChatHistoryResponse) {
         UUID parentBatchId = UUID.randomUUID();
         UUID childBatchId = UUID.randomUUID();
 
-        lastDayChatHistory.getMessageBatches().forEach(messagesBatch -> {
-            Content content = Content.builder()
-                .link(lastDayChatHistory.getChatId().toString())
-                .type(ContentType.TG_MESSAGE_BATCH)
-                .source(Source.TG)
-                .title(lastDayChatHistory.getChatTitle() + " / " + lastDayChatHistory.getTopicName() + " - за последние 24 часа")
-                .publicationDate(lastDayChatHistory.getFirstMessageDateTime())
-                .content(jsonUtil.toJson(messagesBatch))
-                .parentBatchId(parentBatchId)
-                .childBatchId(childBatchId)
-                .build();
+        TgMessageDto earliestTgMessageDto = searchChatHistoryResponse.getMessages().get(0);
 
-            contentDomainService.save(content);
-        });
+        Content content = Content.builder()
+            .link(searchChatHistoryResponse.getChatId().toString())
+            .type(ContentType.TG_MESSAGE_BATCH)
+            .source(Source.TG)
+            .title(searchChatHistoryResponse.getChatTitle() + " / " + searchChatHistoryResponse.getTopicName() + " - за последние 24 часа")
+            .publicationDate(earliestTgMessageDto.getDateTime())
+            .content(jsonUtil.toJson(searchChatHistoryResponse.getMessages()))
+            .parentBatchId(parentBatchId)
+            .childBatchId(childBatchId)
+            .build();
+
+        contentDomainService.save(content);
 
         ConveyorType conveyorType = parsingJob.getConveyorType();
 
