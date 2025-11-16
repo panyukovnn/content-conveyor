@@ -52,7 +52,7 @@ public class TgChatsCollectorClientService {
 
             return commonResponse.getBody();
         } catch (FeignException e) {
-            log.warn("Ошибка при отправке запроса в tg-chats-collector, статус ответа: {}. Тело ответа: {}", e.status(), e.responseBody(), e);
+            log.warn("Ошибка при отправке запроса в tg-chats-collector, статус ответа: {}. Тело ответа: {}", e.status(), e.contentUTF8(), e);
         } catch (Exception e) {
             log.error("Непредвиденная ошибка при отправке запроса в tg-chats-collector: {}", e.getMessage(), e);
         }
