@@ -38,7 +38,7 @@ public class ParsingJob {
     private final TgChatsCollectorClientService tgChatsCollectorClientService;
 
     @Async("parsingJobScheduler")
-    @Scheduled(cron = "0 0 8 * * *")
+    @Scheduled(cron = "${retelling.scheduled-jobs.source-parsing.tg-cron}")
     public void parsing() {
         List<ParsingJobInfo> dailyParsingJobs = parsingJobInfoDomainService.findDailyParsingJobs();
 

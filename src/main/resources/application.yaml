@@ -46,6 +46,7 @@ retelling:
   scheduled-jobs:
     source-parsing:
       article-cron: 0 0 8 * * *
+      tg-cron: 0 * * * * *
     event-processing:
       cron: "*/10 * * * * *"
   rate:
