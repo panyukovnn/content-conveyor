@@ -41,7 +41,7 @@ public class HabrDataFinder implements AutoDataFinder {
                 .userAgent("Mozilla/5.0")
                 .get();
 
-            Elements articleBlocks = doc.select("div.tm-article-snippet");
+            Elements articleBlocks = doc.select("div.article-snippet");
 
             LocalDateTime fromDateTime = LocalDateTime.now(ZoneOffset.UTC).minusDays(articleDataFinedProperty.getPeriodOfDaysToLookFor());
 
