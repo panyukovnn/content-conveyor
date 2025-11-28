@@ -33,26 +33,26 @@ class ArticleDataFinderTest extends AbstractTest {
 
             assertThat(articleLinks)
                 .hasSize(20)
-                .contains("https://habr.com/ru/articles/906318/",
-                    "https://habr.com/ru/articles/905910/",
-                    "https://habr.com/ru/companies/spring_aio/articles/905902/",
-                    "https://habr.com/ru/companies/spring_aio/articles/905586/",
-                    "https://habr.com/ru/companies/simbirsoft/articles/903686/",
-                    "https://habr.com/ru/companies/haulmont/articles/905038/",
-                    "https://habr.com/ru/companies/axiomjdk/articles/904928/",
-                    "https://habr.com/ru/articles/904954/",
-                    "https://habr.com/ru/articles/904952/",
-                    "https://habr.com/ru/articles/904766/",
-                    "https://habr.com/ru/articles/904632/",
-                    "https://habr.com/ru/articles/904554/",
-                    "https://habr.com/ru/companies/pvs-studio/articles/904438/",
-                    "https://habr.com/ru/companies/spring_aio/articles/903864/",
-                    "https://habr.com/ru/companies/ru_mts/articles/902544/",
-                    "https://habr.com/ru/companies/spring_aio/articles/903856/",
-                    "https://habr.com/ru/companies/spring_aio/articles/903542/",
-                    "https://habr.com/ru/articles/902922/",
-                    "https://habr.com/ru/articles/902854/",
-                    "https://habr.com/ru/companies/otus/articles/902240/");
+                .contains("https://habr.com/ru/articles/971350/",
+                    "https://habr.com/ru/companies/otus/articles/971192/",
+                    "https://habr.com/ru/articles/970730/",
+                    "https://habr.com/ru/companies/ru_mts/articles/970176/",
+                    "https://habr.com/ru/companies/compo/articles/970776/",
+                    "https://habr.com/ru/companies/haulmont/articles/970556/",
+                    "https://habr.com/ru/articles/970388/",
+                    "https://habr.com/ru/articles/969926/",
+                    "https://habr.com/ru/articles/969820/",
+                    "https://habr.com/ru/articles/969730/",
+                    "https://habr.com/ru/articles/969386/",
+                    "https://habr.com/ru/companies/timeweb/articles/966650/",
+                    "https://habr.com/ru/companies/pvs-studio/articles/969540/",
+                    "https://habr.com/ru/articles/969410/",
+                    "https://habr.com/ru/companies/axiomjdk/articles/969344/",
+                    "https://habr.com/ru/articles/968968/",
+                    "https://habr.com/ru/companies/spring_aio/articles/968898/",
+                    "https://habr.com/ru/articles/968844/",
+                    "https://habr.com/ru/articles/968808/",
+                    "https://habr.com/ru/companies/otus/articles/968028/");
         }
     }
 }
